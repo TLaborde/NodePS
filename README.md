@@ -30,7 +30,7 @@ Caveats:
 # One time setup
     # Download the repository
     # Unblock the zip
-    # Extract the PSExcel folder to a module path (e.g. $env:USERPROFILE\Documents\WindowsPowerShell\Modules\)
+    # Extract the NodePS folder to a module path (e.g. $env:USERPROFILE\Documents\WindowsPowerShell\Modules\)
 
 # Import the module. You need to be in an elevated shell.
     Import-Module NodePS    #Alternatively, Import-Module \\Path\To\NodePS
