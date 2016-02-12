@@ -1,7 +1,7 @@
 # You can post values to Powershell
 # Example: http://localhost:8080/example5.ps1?command=Date
 # But we only get content of html files, you can't execute Powershell in them.
-$cmd = $PoSHQuery.Command
+$cmd = $NodePSQuery.Command
 if ($cmd -eq "Date")
 {
 	Write-Host (Get-Date)
