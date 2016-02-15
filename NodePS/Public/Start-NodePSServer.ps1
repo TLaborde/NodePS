@@ -152,7 +152,7 @@ param (
         if (!$JobCredentials) {
             Write-Warning "Please specify user credentials for NodePS Server background job."
             $JobCredentials = Get-Credential
-            $JobPassword = $JobSecureCredentials.GetNetworkCredential().Password
+            $JobPassword = $JobCredentials.GetNetworkCredential().Password
         } 
         $JobUsername = $JobCredentials.UserName
         $JobPassword = $JobCredentials.GetNetworkCredential().Password
