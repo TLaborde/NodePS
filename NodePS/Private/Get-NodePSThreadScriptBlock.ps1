@@ -103,7 +103,7 @@
                         if ($NodePSConfig.CachedMode) {
                             $ScriptBlock = $SharedData.CachedPages[$file]
                         } else {
-                            $param ="Param(`$NodePSUserName, `$NodePSUserPassword, `$NodePSQuery, `$NodePSPost, `$SharedData)`n"
+                            $param ="Param(`$NodePSUserName, `$NodePSUserPassword, `$NodePSQuery, `$NodePSPost, `$SharedData, `$Identity)`n"
                             $ScriptBlock = [scriptblock]::Create($param + ([System.IO.File]::ReadAllText($file)))
                         }
                         $ResponseThread = [powershell]::Create()
@@ -113,6 +113,7 @@
                         $null = $ResponseThread.AddArgument($NodePSQuery)
                         $null = $ResponseThread.AddArgument($NodePSPost)
                         $null = $ResponseThread.AddArgument($SharedData)
+                        $null = $ResponseThread.AddArgument($Identity)
                         $ResponseThread.RunspacePool = $SharedData.RunspacePool
                         $ResponseHandle = $ResponseThread.BeginInvoke()
                         Do {
