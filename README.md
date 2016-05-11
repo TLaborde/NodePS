@@ -11,8 +11,13 @@ Caveats:
 
 * Requires Powershell v4 minimum
 * No testing published. Maybe one day when I get around reading on Pester. Contributions welcome!
-* The WebServer use a .Net object that requires local administrator rights. Please be careful and maybe put it behind a reverse proxy (IIS can do it).
 * Naming conventions and coding style subject to change. Suggestions welcome!
+* In order to run the server as a non-local Administrator you must reserve the url prefix being used ahead of time for the user account that will be running the server using the following procedure:
+
+   1. Run command prompt as a local administrator
+   2. Run the following command **netsh http add urlacl url=https://127.0.0.1:443/ user=MYDOMAIN\UserName**
+
+
 
 #Functionality
 
