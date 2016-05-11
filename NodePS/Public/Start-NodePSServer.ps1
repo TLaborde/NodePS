@@ -1,5 +1,4 @@
-﻿#Requires -RunAsAdministrator
-function Start-NodePSServer {
+﻿function Start-NodePSServer {
 <#
     .SYNOPSIS
 
@@ -313,14 +312,27 @@ param (
             Write-Debug $_.Exception.tostring()
         }
 
+        #Prefixes have to be in the script scope to be accessible in the error catch block
+        $Script:Prefixes = $Listener.Prefixes
+
         Write-Verbose "Start Listener..."
         try {
             $Listener.Start()
         } catch {
-            Write-Error "Exception in $($_.InvocationInfo.ScriptName):$($_.InvocationInfo.ScriptLineNumber):$($_.InvocationInfo.Line)"
-            write-Error $_.Exception.tostring()
+            if($_.Exception.tostring() -match "Access is denied")
+            {
+                Write-Error "`n*`n*`nThe current user: $([Security.Principal.WindowsIdentity]::GetCurrent().Name) does not have access to one or more of the following URL namespaces`n---`n$($Script:Prefixes | Out-String)`n*`n*`nYou will need to register them using netsh http using the following commands for each url that is not currently registered:`n---`n $($Script:Prefixes | foreach {"netsh http add urlacl url=$_ user=$([Security.Principal.WindowsIdentity]::GetCurrent().Name)`n"})`n*`n*`nSee http://www.codeproject.com/Articles/437733/Demystify-http-sys-with-HttpSysManager for a good write-up on this.`n"
+            }
+            else
+            {
+                Write-Error "Exception in $($_.InvocationInfo.ScriptName):$($_.InvocationInfo.ScriptLineNumber):$($_.InvocationInfo.Line)"
+                write-Error $_.Exception.tostring()
+            }
             return
         }
+
+        #Removing the variable since it is only needed during that particular catch block
+        Remove-Variable $Script:Prefixes
         
         try {
             if ($SSL) {
