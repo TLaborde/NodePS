@@ -123,6 +123,12 @@ param (
         HelpMessage = 'Run As Background Job')]
     [switch]$asJob
 )
+    if($SSL -AND -NOT ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator") {
+        Write-Error "You must be running as administrator to run NodePS in SSL mode. We are planning on fixing this later."
+        Break
+    }
+
+
     # Strict mode for clean code
     Set-StrictMode -Version latest
 
